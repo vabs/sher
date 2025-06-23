@@ -42,8 +42,19 @@
         }
 
         @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
+            0%, 70% { opacity: 0.2; }
+            75%, 85% { opacity: 1; }
+            90%, 100% { opacity: 0.2; }
+        }
+
+        @keyframes blink {
+            0%, 80% { opacity: 0.1; }
+            85%, 95% { opacity: 0.9; }
+            100% { opacity: 0.1; }
+        }
+
+        .star.blink {
+            animation: blink 2s infinite;
         }
 
         .container {
@@ -76,7 +87,6 @@
             transition: all 0.3s ease;
             max-width: 800px;
             width: 100%;
-            margin: 0 auto;
         }
 
         .main-card:hover {
@@ -103,14 +113,14 @@
         }
 
         .line1 {
-            font-size: clamp(1.8rem, 5vw, 2rem);
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
             font-weight: 400;
             color: #e8d5b7;
             line-height: 1.4;
         }
 
         .line2 {
-            font-size: clamp(2rem, 5.5vw, 2.5rem);
+            font-size: clamp(2rem, 5.5vw, 3rem);
             font-weight: 700;
             color: #f4e4bc;
             line-height: 1.3;
@@ -372,17 +382,33 @@
     </div>
 
     <script>
-        // Create stars
+        // Create stars with different blinking patterns
         function createStars() {
             const starsContainer = document.getElementById('stars');
-            const numberOfStars = 100;
+            const numberOfStars = 150;
             
             for (let i = 0; i < numberOfStars; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
+                
+                // Randomly assign blinking or twinkling pattern
+                if (Math.random() > 0.6) {
+                    star.classList.add('blink');
+                    star.style.animationDelay = Math.random() * 4 + 's';
+                    star.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                } else {
+                    star.style.animationDelay = Math.random() * 3 + 's';
+                    star.style.animationDuration = (Math.random() * 1.5 + 2) + 's';
+                }
+                
                 star.style.left = Math.random() * 100 + '%';
                 star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
+                
+                // Vary star sizes slightly
+                const size = Math.random() * 2 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
                 starsContainer.appendChild(star);
             }
         }
